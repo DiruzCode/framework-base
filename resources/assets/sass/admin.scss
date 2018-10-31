@@ -1,0 +1,21 @@
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+// Variables
+@import "admin/variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Gentelella Bootstrap 3.0 Admin Template
+@import "admin/gentelella.scss";
+@import "node_modules/eonasdan-bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build";
+@import "node_modules/select2/src/scss/core";
+
+
+.float-right{
+  float: right;
+}
+
+.float-left{
+  float: left;
+}
