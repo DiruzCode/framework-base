@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
 
           $user = User::create([
               'email' => $item['email'],
-              'password' => 'Bullish20!!',
+              'password' => 'admin1234',
               'remember_token' => str_random(10),
               'status' => 'active',
               'hidden' => $item['hidden']
