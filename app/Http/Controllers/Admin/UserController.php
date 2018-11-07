@@ -41,6 +41,8 @@ class UserController extends Controller
          $page = $request->query('page');
 
          return view('admin.users.create', [
+             'status'            => $request->old('status', 'active'),
+             'hidden'            => $request->old('hidden', false),
              'cancel_link'  => route('admin::users.index', ['page' => $page]),
              'roles'        => $roles,
              'role_id'      => $request->old('role_id'),
@@ -53,7 +55,10 @@ class UserController extends Controller
         \DB::beginTransaction();
            $user = User::create([
              'email'             => $request->get('email'),
-             'password'          => $request->get('password')
+             'password'          => $request->get('password'),
+             'status' => $request->has('status') ? 'active' : 'inactive',
+             'hidden' => $request->has('hidden')
+
            ]);
 
            $roles = Role::whereIn('id',$request->get('role_id'))->get();
@@ -74,6 +79,8 @@ class UserController extends Controller
         $page = $request->query('page');
 
         return view('admin.users.edit', [
+            'status' => $request->old('status', $user->status),
+            'hidden' => $request->old('hidden', $user->hidden),
             'model'         => $user,
             'cancel_link'  => route('admin::users.index', ['page' => $page]),
             'roles'        => $roles,
@@ -86,12 +93,14 @@ class UserController extends Controller
       public function update(UserRequest $request, $id) {
          $user = User::findOrFail($id);
 
-
          \DB::beginTransaction();
             $user->update([
               'email'             => $request->get('email'),
-              'password'          => $request->get('password')
+              'password'          => $request->get('password'),
+              'status' => $request->has('status') ? 'active' : 'inactive',
+              'hidden' => $request->has('hidden')
             ]);
+
 
             $roles = Role::whereIn('id',$request->get('role_id'))->get();
             $user->syncRoles($roles);

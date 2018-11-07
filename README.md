@@ -17,6 +17,9 @@
 * composer install
 * cp .env.example .env
 * php artisan key:generate
+
+* Create manual DB and configure in .env
+
 * php artisan migrate --seed
 * npm run dev
 * php artisan serve

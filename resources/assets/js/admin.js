@@ -1,11 +1,47 @@
+/**
+ * Resize function without multiple trigger
+ *
+ * Usage:
+ * $(window).smartresize(function(){
+ *     // code here
+ * });
+ */
 
-require('./base');
-require('superfish');
-require('jquery-sticky');
-require('eonasdan-bootstrap-datetimepicker');
-require('select2');
-require('select2/dist/js/i18n/es.js');
+ var Switchery = require('switchery');
 
+
+(function($,sr){
+    // debouncing function from John Hann
+    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+    var debounce = function (func, threshold, execAsap) {
+        var timeout;
+
+        return function debounced () {
+            var obj = this, args = arguments;
+            function delayed () {
+                if (!execAsap)
+                    func.apply(obj, args);
+                timeout = null;
+            }
+
+            if (timeout)
+                clearTimeout(timeout);
+            else if (execAsap)
+                func.apply(obj, args);
+
+            timeout = setTimeout(delayed, threshold || 100);
+        };
+    };
+
+    // smartresize
+    jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+
+})(jQuery,'smartresize');
+/**
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $BODY = $('body'),
@@ -18,7 +54,7 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $FOOTER = $('footer');
 
 // Sidebar
-$(function() {
+$(document).ready(function() {
     // TODO: This is some kind of easy fix, maybe we can improve this
     var setContentHeight = function () {
         // reset height
@@ -71,8 +107,6 @@ $(function() {
         $BODY.toggleClass('nav-md nav-sm');
 
         setContentHeight();
-
-        $('.dataTable').each ( function () { $(this).dataTable().fnDraw(); });
     });
 
     // check active menu
@@ -85,9 +119,9 @@ $(function() {
     }).parent().addClass('active');
 
     // recompute content when resizing
-    /* $(window).smartresize(function(){
+    $(window).smartresize(function(){
         setContentHeight();
-    }); */
+    });
 
     setContentHeight();
 
@@ -99,17 +133,11 @@ $(function() {
             mouseWheel:{ preventDefault: true }
         });
     }
-
-    // select2
-    $('.select2').select2({
-        allowClear: true,
-        minimumResultsForSearch: 10
-    });
 });
 // /Sidebar
 
 // Panel toolbox
-$(function() {
+$(document).ready(function() {
     $('.collapse-link').on('click', function() {
         var $BOX_PANEL = $(this).closest('.x_panel'),
             $ICON = $(this).find('i'),
@@ -143,6 +171,12 @@ $(document).ready(function() {
     });
 });
 // /Tooltip
+
+// Progressbar
+if ($(".progress .progress-bar")[0]) {
+    $('.progress .progress-bar').progressbar();
+}
+// /Progressbar
 
 // Switchery
 $(document).ready(function() {
@@ -224,7 +258,7 @@ function countChecked() {
 }
 
 // Accordion
-$(function() {
+$(document).ready(function() {
     $(".expand").on("click", function () {
         $(this).next().slideToggle(200);
         $expand = $(this).find(">:first-child");
@@ -243,7 +277,35 @@ if (typeof NProgress != 'undefined') {
         NProgress.start();
     });
 
-    $(window).on('load', function() {
+    $(document).ready(function() {
         NProgress.done();
     });
 }
+
+// Toastr Options
+if (typeof toastr != 'undefined') {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-full-width",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+}
+
+// Adding X-CSRF-TOKEN to any ajax request
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});

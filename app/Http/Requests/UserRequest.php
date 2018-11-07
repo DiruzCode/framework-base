@@ -14,20 +14,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        if (!$this->user()->hasRole('super-administrador')) {
-            if ($this->isMethod('patch')) {
-                $id = $this->input('id');
-                $user = User::findOrFail($id);
-                // If logged in user is not super-administrador but the editing user is,
-                // then logged in user cannot modify the super-administrador user
-                if ($user->hasRole('super-administrador'))
-                    return false;
-            }
-            // Only super-administrador users can modify hidden property of the editing user
-            if ($this->has('hidden'))
-                return false;
-        }
-        return $this->user()->can(['crear-usuarios', 'editar-usuarios']);
+      return true;
     }
 
     /**
@@ -44,7 +31,6 @@ class UserRequest extends FormRequest
          */
         $rules = [
             'email'             => 'required|email',
-            'password'          => 'required_without:id|confirmed|min:2|max:30',
             'role_id'             => 'required|array|min:1',
         ];
 

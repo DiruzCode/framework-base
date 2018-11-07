@@ -65,8 +65,9 @@
         </div>
     </div>
 
-    <script src="{{ mix('/js/admin.js') }}"></script>
+    <script src="{{ mix('/js/base.js') }}"></script>
     <script src="{{ mix('/js/resources.js') }}"></script>
+    <script src="{{ mix('/js/admin.js') }}"></script>
 
     @include('admin.includes.toast')
     @yield('js-validation')

@@ -7,3 +7,9 @@
 require('./bootstrap');
 
 'use strict';
+
+require('superfish');
+require('jquery-sticky');
+require('eonasdan-bootstrap-datetimepicker');
+require('select2');
+require('select2/dist/js/i18n/es.js');

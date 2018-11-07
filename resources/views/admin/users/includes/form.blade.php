@@ -41,6 +41,36 @@
     </div>
 </div>
 
+<div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+    {{ Form::label('status', 'Estado *', ['class' => 'control-label col-md-2 col-sm-2 col-xs-10']) }}
+
+    <div class="col-md-8 col-sm-8 col-xs-10">
+        {{ Form::checkbox('status', 'active', $status == 'active', ['class' => 'control-label js-switch', 'id' => 'status', 'data-render' => 'switchery']) }}
+
+        @if ($errors->has('status'))
+        <span class="text-danger">
+            <strong>{{ $errors->first('status') }}</strong>
+        </span>
+        @endif
+    </div>
+</div>
+@role('super-administrador')
+    <div class="form-group{{ $errors->has('hidden') ? ' has-error' : '' }}">
+        {{ Form::label('hidden', 'Oculto *', ['class' => 'control-label col-md-2 col-sm-2 col-xs-10']) }}
+
+        <div class="col-md-8 col-sm-8 col-xs-10">
+            {{ Form::checkbox('hidden', true, $hidden, ['class' => 'control-label js-switch', 'id' => 'hidden', 'data-render' => 'switchery']) }}
+
+            @if ($errors->has('hidden'))
+                <span class="text-danger">
+                <strong>{{ $errors->first('hidden') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+@endrole
+
+
 <div class="form-group row {{ $errors->has('permission_id') ? ' has-error' : '' }}">
     {{ Form::label('role_id', 'Roles *', ['class' => 'control-label col-md-2 col-sm-2 col-xs-10']) }}
 

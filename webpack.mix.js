@@ -30,6 +30,7 @@ mix.js('resources/assets/js/base.js', 'public/js')
            'node_modules/moment/moment.js',
            'node_modules/daterangepicker/daterangepicker.js',
            './vendor/proengsoft/laravel-jsvalidation/public/js/jsvalidation.js',
+           'node_modules/switchery/standalone/switchery.js',
     ], 'public/js/resources.js')
 
     .combine([
@@ -39,6 +40,7 @@ mix.js('resources/assets/js/base.js', 'public/js')
             'node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css',
             'node_modules/toastr/build/toastr.min.css',
             'node_modules/daterangepicker/daterangepicker.css',
+            'node_modules/switchery/standalone/switchery.css',
     ], 'public/css/resources.css')
 
     .version();
